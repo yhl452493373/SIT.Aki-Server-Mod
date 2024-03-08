@@ -48,9 +48,8 @@ jobs:
 
       - name: Compress SITCoop folder
         run: |
-          echo "FILE_DATE=_$(date +"%Y%m%d%H%M%s")" >> $GITHUB_ENV
-          zip -r SITCoop-${{ env.FILE_DATE }}.zip ./SITCoop
-          echo ${{ env.FILE_DATE }}
+          echo "FILE_DATE=$(date +"%Y%m%d%H%M%s")" >> $GITHUB_ENV
+          zip -r "SITCoop-${{ env.FILE_DATE }}.zip" ./SITCoop
         if: github.event_name == 'workflow_dispatch'
       
       - name: Create release
@@ -58,8 +57,8 @@ jobs:
         if: github.event_name == 'workflow_dispatch'
         with:
           tag_name: ${{ steps.read_package_json.outputs.version }}
-          name: SITCoop-${{ steps.read_package_json.outputs.version }}
-          files: SITCoop-${{ env.FILE_DATE }}.zip
+          name: "SITCoop-${{ steps.read_package_json.outputs.version }}"
+          files: "SITCoop-${{ env.FILE_DATE }}.zip"
           generate_release_notes: false
           draft: true
           token: ${{ secrets.GITHUB_TOKEN }}
